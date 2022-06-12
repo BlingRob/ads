@@ -7,7 +7,7 @@ namespace ads
     /// common library structure
     /// </summary>
 
-    namespace statistics {}
+    /*namespace statistics {}
 
     namespace structures {}
 
@@ -18,7 +18,8 @@ namespace ads
         namespace number_theory {}
         namespace geometry {}
     }
-
+    
+    */
     /// <summary>
     /// common useful tools
     /// </summary>

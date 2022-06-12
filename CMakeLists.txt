@@ -14,3 +14,7 @@ file(GLOB_RECURSE HEADER_FILES
 			ads/*.hpp)
 
 add_executable (${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+
+if(NOT WIN32)
+	list(APPEND CMAKE_CXX_FLAGS "-std=c++17 -fpermissive ${CMAKE_CXX_FLAGS}")
+endif()

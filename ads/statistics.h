@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <algorithm>
 #include <numeric>
+#include <math.h>
 
 namespace ads
 {
@@ -17,8 +18,9 @@ namespace ads
         }
 
         template<class iter>
-        float variance(iter it1, iter it2, float m = mean(it1, it2))
+        float variance(iter it1, iter it2, float m = 0)
         {
+            m = mean(it1, it2);
             if constexpr (std::is_pointer<iter>())
                 ++it2;
             return static_cast<float>(std::accumulate(it1, it2, 0.0f, [&m](float acc, float x) {return acc + std::pow(x - m, 2); })) / (std::distance(it1, it2) - 1);

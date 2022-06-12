@@ -102,6 +102,7 @@ namespace ads
                     return result;
                 }
 
+                //not finish
                 polynomial operator /(const polynomial& rgh) const
                 {
 

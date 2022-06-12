@@ -1,6 +1,7 @@
 #pragma once
 #include "core.h"
 #include <numeric>
+#include <limits>
 #include <iostream>
 #include <vector>
 
@@ -38,9 +39,10 @@ namespace ads
                 {
                     return static_cast<double>(*this);
                 }
+
                 operator double() const
                 {
-                    return (denum == 0) ? INFINITY : static_cast<double>(numer) / denum;
+                    return (denum == 0) ? std::numeric_limits<double>::infinity() : static_cast<double>(numer) / denum;
                 }
 
                 constexpr int64_t num() const { return numer; }
