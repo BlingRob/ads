@@ -28,7 +28,7 @@ namespace ads
                 template<typename type>
                 polynomial(std::initializer_list<type> coefs)
                 {
-                    uint32_t degree = coefs.size() - 1;
+                    std::size_t degree = coefs.size() - 1;
                     for (const auto& coef : coefs)
                         cofs.insert({ static_cast<double>(coef), degree-- });
 

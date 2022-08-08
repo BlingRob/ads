@@ -7,8 +7,8 @@ namespace ads
     {
         namespace calculus
         {
-            template<typename f>
-            double bisection(f fun, double a, double b, double eps = 1E-3)
+            template<typename f,typename T>
+            double bisection(f fun, T a, T b, T eps = 1E-3)
             {
                 if (fun(a) * fun(b) > 0)
                     return NAN;
@@ -29,8 +29,8 @@ namespace ads
                 return (a + b) / 2.0;
             }
 
-            template<typename f>
-            double HordMethod(f fun, double a, double b, double eps = 1E-3)
+            template<typename f,typename T>
+            double HordMethod(f fun, T a, T b, T eps = 1E-3)
             {
                 if (fun(a) * fun(b) > 0)
                     return NAN;
@@ -57,8 +57,8 @@ namespace ads
                 return x0;
             }
 
-            template<typename f>
-            double NewtonMethod(f fun, double a, double b, double eps = 1E-3)
+            template<typename f,typename T>
+            double NewtonMethod(f fun, T a, T b, T eps = 1E-3)
             {
                 if (fun(a) * fun(b) > 0)
                     return NAN;

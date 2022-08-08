@@ -5,27 +5,29 @@ namespace ads
 {
 	namespace mathematics 
 	{
+		const double Pi = 3.1415926535897932384;
+
 		template<typename T>
 		struct AdditiveGroup
 		{
-			virtual T operator+(const T&) {} override;
-			virtual T operator-(const T&) {} override;
+			virtual T operator+(const T&) override;
+			virtual T operator-(const T&) override;
 		};
 
 		template<typename T>
 		struct MultiplicativeGroup
 		{
-			virtual T operator*(const T&) {} override;
-			virtual T operator/(const T&) {} override;
+			virtual T operator*(const T&) override;
+			virtual T operator/(const T&) override;
 		};
 
 		template<typename T>
-		struct Ring:public AdditiveGroup,public MultiplicativeGroup
+		struct Ring:public AdditiveGroup<T>,public MultiplicativeGroup<T>
 		{
 		};
 
 		template<typename T,typename deg,typename = std::enable_if_t<std::is_arithmetic_v<T> && std::is_integral_v<deg>>>
-		int pow(T a, deg n)
+		T pow(T a, deg n)
 		{
 			return (!n) ? 1 : a * pow(a, n - 1);
 		}
@@ -65,5 +67,21 @@ namespace ads
 			return (a < b ? -1 : a > b);
 		}
 
+		uint64_t factorial(uint64_t n) 
+		{
+			uint64_t res = 1;
+			
+			for (uint64_t i = 1; i <= n; ++i)
+				res *= i;
+			return res;
+		}
+
+		uint64_t C(uint64_t n, uint64_t k) 
+		{
+			if (n > k)
+				return factorial(n) / (factorial(k) * factorial(n - k));
+			else
+				return 1;
+		}
 	}
 }
