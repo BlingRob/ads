@@ -1,3 +1,5 @@
+// \\\ file core.h 
+// \\\ Common using things and structure all project
 #pragma once
 #include <set>
 
@@ -7,8 +9,7 @@ namespace ads
     /// common library structure
     /// </summary>
 
-    /*namespace statistics {}
-
+    /*
     namespace structures {}
 
     namespace mathematics
@@ -17,6 +18,7 @@ namespace ads
         namespace calculus {}
         namespace number_theory {}
         namespace geometry {}
+        namespace statistics {}
     }
     
     */

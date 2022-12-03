@@ -1,3 +1,5 @@
+// \\\ file mathematics.h
+// \\\ maths core defenitions
 #pragma once
 #include <type_traits>
 

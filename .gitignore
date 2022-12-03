@@ -1,7 +1,9 @@
 /.vs
+.vscode/
 /Debug
 /Release
 *.pdb
 *.exp
 /build
+/build2
 /develop

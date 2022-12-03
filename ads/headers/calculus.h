@@ -1,3 +1,6 @@
+// \\\ file calculus.h 
+// \\\ Standart calculus things.
+// \\\ Now there is solver of function's root
 #pragma once
 #include <algorithm>
 

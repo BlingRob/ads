@@ -1,3 +1,5 @@
+// \\\ file algebra.h 
+// \\\ Some algebraic staff
 #pragma once
 #include <tuple>
 #include <iostream>
@@ -11,10 +13,11 @@ namespace ads
     {
         namespace algebra
         {
-            class polynomial
+            class Polynomial
             {
             public:
-                using ValDegree = std::pair<double, int32_t>;
+                //template<typename type = double>
+                using ValDegree = std::pair<double, size_t>;
                 struct Comparer {
                     bool operator()(const ValDegree& lhs,
                         const ValDegree& rhs) const
@@ -23,10 +26,10 @@ namespace ads
                     }
                 };
 
-                polynomial() {}
+                Polynomial() {}
 
                 template<typename type>
-                polynomial(std::initializer_list<type> coefs)
+                Polynomial(std::initializer_list<type> coefs)
                 {
                     std::size_t degree = coefs.size() - 1;
                     for (const auto& coef : coefs)
@@ -35,16 +38,16 @@ namespace ads
                 }
 
                 template<typename type>
-                polynomial(std::initializer_list<std::pair<type, int32_t>> coefs)
+                Polynomial(std::initializer_list<ValDegree> coefs)
                 {
                     for (const auto& coef : coefs)
                         cofs.insert(coef);
                 }
 
-                polynomial(std::set<ValDegree, Comparer>&& coefs) :cofs(coefs) {}
-                //polynomial(std::size_t size) : cofs(size) {}
+                Polynomial(std::set<ValDegree, Comparer>&& coefs) :cofs(coefs) {}
+                //Polynomial(std::size_t size) : cofs(size) {}
                 //Operations with fractions
-                polynomial operator +(const polynomial& rgh) const
+                Polynomial operator +(const Polynomial& rgh) const
                 {
                     auto cmp = [](const ValDegree& lhs,
                         const ValDegree& rhs)
@@ -70,17 +73,17 @@ namespace ads
                     return Res;
                 }
 
-                polynomial operator -(const polynomial& rgh) const
+                Polynomial operator -(const Polynomial& rgh) const
                 {
                     std::set<ValDegree, Comparer> copy;
 
                     for (const auto& mon : rgh.cofs)
                         copy.insert({ (-1) * mon.first, mon.second });
 
-                    return *this + polynomial(std::move(copy));
+                    return *this + Polynomial(std::move(copy));
                 }
 
-                polynomial operator *(const polynomial& rgh) const
+                Polynomial operator *(const Polynomial& rgh) const
                 {
                     std::set<ValDegree, Comparer> result;
                     ValDegree monom;
@@ -102,14 +105,26 @@ namespace ads
                     return result;
                 }
 
-                //not finish
-                polynomial operator /(const polynomial& rgh) const
+                //TODO
+                Polynomial operator /(const Polynomial& rgh) const
                 {
 
                 }
 
+                bool operator ==(const Polynomial& rgh) const
+                {
+                    if((this->Degree() != rgh.Degree()) || (this->cofs.size() != rgh.cofs.size()))
+                        return false;
+                    
+                    for(auto it1 = this->cofs.cbegin(),it2 = rgh.cofs.cbegin();it1 != this->cofs.cend();++it1,++it2)
+                        if((it1->first != it2->first) && (it1->second != it2->second))
+                            return false;
+                    return true;
+                    
+                } 
+
                 template<typename T, typename = std::is_integral<T> >
-                double value(T x)
+                double value(T x) const
                 {
                     double res = 0.0;
                     for (const auto& mon : cofs)
@@ -117,14 +132,22 @@ namespace ads
                     return res;
                 }
 
+                size_t Degree() const
+                {
+                    if(cofs.empty())
+                        return 0;
+                    else
+                        return cofs.cbegin()->second;
+                }
+
                 //IO operations
-                friend std::ostream& operator<<(std::ostream& out, const polynomial& p);
+                friend std::ostream& operator<<(std::ostream& out, const Polynomial& p);
             private:
 
                 std::set<ValDegree, Comparer> cofs;
             };
 
-            std::ostream& operator<<(std::ostream& out, const polynomial& p)
+            std::ostream& operator<<(std::ostream& out, const Polynomial& p)
             {
                 for (auto it = p.cofs.cbegin(); it != p.cofs.cend(); ++it)
                 {

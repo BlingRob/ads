@@ -1,10 +1,12 @@
-﻿#include <iostream>
+﻿// \\\ file graphs.h
+// \\\ It's file for testing opportunities
+#include <iostream>
 #include "statistics.h"
 #include "numberTheory.h"
 #include "core.h"
 #include "geometry.h"
 #include "algebra.h"
-#include "calculus.h"
+
 
 using retT = double;
 
@@ -25,17 +27,16 @@ retT f2(retT x)
 
 
 struct PointCmp {
-    bool operator()(const ads::mathematics::geometry::vector<double, 2>& lhs, const ads::mathematics::geometry::vector<double, 2>& rhs) const {
+    bool operator()(const ads::mathematics::geometry::vector<2, double>& lhs, const ads::mathematics::geometry::vector<2,double>& rhs) const {
         return lhs[0] < rhs[0];
     }
 };
 
+// TODO
+// Separet on tests case
 int main()
 {
-   // ads::mathematics::algebra::polynomial p({ 1,2,3,4 }), p2({1,1});
-   // std::cout <<  p * p2 << std::endl;
-    
-   // std::cout << ads::mathematics::calculus::NewtonMethod(f, 0.0, 10.0) << std::endl;
+
     //std::cout << ads::statistics::mean(Arr) << " " << ads::statistics::variance(Arr) << " " << ads::statistics::StdDeviation(ads::statistics::variance(Arr)) << std::endl;
     //std::cout << "median " << ads::statistics::median(Arr);
      
@@ -56,29 +57,32 @@ int main()
     //vec.z();
     //ads::mathematics::geometry::vector<float, 3> res = vec2 * 2;
     //std::cout << res.y();
-    /*ads::mathematics::geometry::curve<double, 3> a(f, f1, f2);
-    ads::mathematics::geometry::vector<float, 3> t = static_cast<ads::mathematics::geometry::vector<float, 3>>(a.derivative(1.0,2,.001));
+    ads::mathematics::geometry::curve<3,double> a(f, f1, f2);
+    ads::mathematics::geometry::vector<3,float> t = a.derivative(1.0,2,.001);
 
-    ads::mathematics::geometry::curve<double, 3> cur(f,f1);
-    ads::mathematics::geometry::vector<double, 3> tan = cur.tangent(0.5);
+    ads::mathematics::geometry::curve<3, double> cur(f,f1);
+    ads::mathematics::geometry::vector<3, double> tan = cur.tangent(0.5);
     double c = cur.curvature(0.5);
-    ads::mathematics::geometry::vector<double, 3> normal = cur.norm(0);
-    ads::mathematics::geometry::vector<double, 3> binormal = cur.binorm(0);
+    ads::mathematics::geometry::vector<3, double> normal = cur.norm(0);
+    ads::mathematics::geometry::vector<3, double> binormal = cur.binorm(0);
     double rad = cur.curvatureRadius(0);
     double tor = cur.torsion(0);
-    ads::mathematics::geometry::ellipse<double, 3> el(2, 2);*/
-    std::set<ads::mathematics::geometry::vector<double, 2>, PointCmp> points;
-    ads::mathematics::geometry::circle<double, 2> cir(2.0);
+    ads::mathematics::geometry::ellipse<3, double> el(2, 2);
+    std::set<ads::mathematics::geometry::vector<2,double>, PointCmp> points;
+    ads::mathematics::geometry::circle<2,double> cir(2.0);
     //ads::mathematics::geometry::curve c({ f,f1,f2 });
     //for (double t = -ads::mathematics::Pi; t < ads::mathematics::Pi; t += 0.1)
     //    points.insert({ t,cir.eval(t) });
-    points.insert(ads::mathematics::geometry::vector < double, 2>(321,2.50651));
-    points.insert(ads::mathematics::geometry::vector < double, 2>(322.8,2.50893 ));
-    points.insert(ads::mathematics::geometry::vector < double, 2>(324.2,2.51081 ));
-    points.insert(ads::mathematics::geometry::vector < double, 2>(325,2.51188 ));
-    ads::mathematics::geometry::curve<double, 2> splain = LagrangeSplain(points);
-    ads::mathematics::geometry::curve<double, 2> splain2 = NewtonSplain(points);
+    points.insert(ads::mathematics::geometry::vector < 2,double>(321,2.50651));
+    points.insert(ads::mathematics::geometry::vector < 2,double>(322.8,2.50893 ));
+    points.insert(ads::mathematics::geometry::vector < 2,double>(324.2,2.51081 ));
+    points.insert(ads::mathematics::geometry::vector < 2,double>(325,2.51188 ));
+    ads::mathematics::geometry::curve<2,double> splain = LagrangeSplain(points);
+    ads::mathematics::geometry::curve<2,double> splain2 = NewtonSplain(points);
+    ads::mathematics::geometry::curve<2, double> splain3 = BazieSplain(points);
     double res = splain.eval(323.5)[1];//2.50987
     double res2 = splain2.eval(323.5)[1];//2.50987
+    double res3 = splain3.eval(323.5)[1];
+
     return 0;
 }
