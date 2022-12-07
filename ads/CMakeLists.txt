@@ -17,6 +17,7 @@ file(GLOB_RECURSE HEADER_FILES
 set(ADS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers PARENT_SCOPE)
 include_directories(ADS_HEADER_DIR)
 
+#TODO while it is not library	
 if(NOT WIN32)
-	list(APPEND CMAKE_CXX_FLAGS "-std=c++17 -fpermissive ${CMAKE_CXX_FLAGS}")
+	#list(APPEND CMAKE_CXX_FLAGS "-std=c++17 -fpermissive ${CMAKE_CXX_FLAGS}")
 endif()

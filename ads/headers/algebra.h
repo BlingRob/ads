@@ -6,6 +6,7 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 namespace ads
 {
@@ -108,7 +109,7 @@ namespace ads
                 //TODO
                 Polynomial operator /(const Polynomial& rgh) const
                 {
-
+                    return *this;
                 }
 
                 bool operator ==(const Polynomial& rgh) const
