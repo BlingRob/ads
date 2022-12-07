@@ -3,6 +3,7 @@
 // \\\ Now there is solver of function's root
 #pragma once
 #include <algorithm>
+#include <cmath>
 
 namespace ads
 {
