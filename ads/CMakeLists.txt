@@ -11,11 +11,11 @@ file(GLOB_RECURSE HEADER_FILES
 			headers/*.h
 			headers/*.hpp)
 
-#TODO while it is not library			
-#add_library(${PROJECT_NAME} STATIC SOURCE_FILES)
+#TODO while it is not library
+set(ADS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers CACHE STRING "Vulkan headers")	
+include_directories(${ADS_HEADER_DIR})
 
-set(ADS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers PARENT_SCOPE)
-include_directories(ADS_HEADER_DIR)
+#add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 #TODO while it is not library	
 if(NOT WIN32)

@@ -14,12 +14,32 @@ namespace ads
     {
         namespace algebra
         {
+            template<typename T>
+            struct AdditiveGroup
+            {
+                virtual T operator+(const T&) = 0;
+                virtual T operator-(const T&) = 0;
+            };
+
+            template<typename T>
+            struct MultiplicativeGroup
+            {
+                virtual T operator*(const T&)  = 0;
+                virtual T operator/(const T&)  = 0;
+            };
+
+            template<typename T>
+            struct Ring:public AdditiveGroup<T>,public MultiplicativeGroup<T>
+            {
+            };
+
             class Polynomial
             {
             public:
                 //template<typename type = double>
                 using ValDegree = std::pair<double, size_t>;
-                struct Comparer {
+                struct Comparer 
+                {
                     bool operator()(const ValDegree& lhs,
                         const ValDegree& rhs) const
                     {
@@ -35,7 +55,6 @@ namespace ads
                     std::size_t degree = coefs.size() - 1;
                     for (const auto& coef : coefs)
                         cofs.insert({ static_cast<double>(coef), degree-- });
-
                 }
 
                 template<typename type>
@@ -129,7 +148,7 @@ namespace ads
                 {
                     double res = 0.0;
                     for (const auto& mon : cofs)
-                        res += mon.first * std::pow(x, mon.second);
+                        res += mon.first * pow(x, mon.second);
                     return res;
                 }
 
@@ -165,6 +184,9 @@ namespace ads
                 }
                 return out;
             }
+        
+
+        
         }
     }
 }

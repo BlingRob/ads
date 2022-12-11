@@ -17,7 +17,6 @@ add_executable(
 target_link_libraries(
   ${PROJECT_NAME}
   GTest::gtest_main
-#  ads
 )
 
 include_directories(${ADS_HEADER_DIR})

@@ -27,7 +27,7 @@ namespace ads
                 m = mean(it1, it2);
                 if constexpr (std::is_pointer<iter>())
                     ++it2;
-                return static_cast<float>(std::accumulate(it1, it2, 0.0f, [&m](float acc, float x) {return acc + std::pow(x - m, 2); })) / (std::distance(it1, it2) - 1);
+                return static_cast<float>(std::accumulate(it1, it2, 0.0f, [&m](float acc, float x) {return acc + pow(x - m, 2); })) / (std::distance(it1, it2) - 1);
             }
 
             template<template<class...> class container, class T, class... Args>

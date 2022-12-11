@@ -206,7 +206,7 @@ namespace ads
                 while (r_n != 0)// && i < iterations
                 {
                     res.push_back({ 1, r_n_1 / r_n });
-                    std::swap(r_n_1 %= r_n, r_n);
+                    swap(r_n_1 %= r_n, r_n);
                     ++i;
                 }
 
@@ -227,8 +227,8 @@ namespace ads
                     res.push_back({ Pk,Qk });
                     Pk_1 = it->den() * Pk + it->num() * Pk_1;
                     Qk_1 = it->den() * Qk + it->num() * Qk_1;
-                    std::swap(Pk_1, Pk);
-                    std::swap(Qk_1, Qk);
+                    swap(Pk_1, Pk);
+                    swap(Qk_1, Qk);
                 }
                 return res;
             }

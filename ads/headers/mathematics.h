@@ -9,25 +9,6 @@ namespace ads
 	{
 		const double Pi = 3.1415926535897932384;
 
-		template<typename T>
-		struct AdditiveGroup
-		{
-			virtual T operator+(const T&) override;
-			virtual T operator-(const T&) override;
-		};
-
-		template<typename T>
-		struct MultiplicativeGroup
-		{
-			virtual T operator*(const T&) override;
-			virtual T operator/(const T&) override;
-		};
-
-		template<typename T>
-		struct Ring:public AdditiveGroup<T>,public MultiplicativeGroup<T>
-		{
-		};
-
 		template<typename T,typename deg,typename = std::enable_if_t<std::is_arithmetic_v<T> && std::is_integral_v<deg>>>
 		T pow(T a, deg n)
 		{
@@ -35,7 +16,7 @@ namespace ads
 		}
 
 		template<typename T, typename deg, typename = std::enable_if_t<std::is_arithmetic_v<T>&& std::is_integral_v<deg>>>
-		int powInd(T a, deg n)
+		T powInd(T a, deg n)
 		{
 			return (!n) ? 1 : ((n & 1) ? a : 1) * powInd(a * a, n / 2);
 		}
@@ -53,7 +34,7 @@ namespace ads
 		}
 
 		template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-		int pow2(int n)
+		T pow2(T n)
 		{
 			return 1 << n;
 		}
@@ -65,7 +46,7 @@ namespace ads
 		}
 
 		template<typename T>
-		int cmp(const T& a, const T& b) {
+		bool cmp(const T& a, const T& b) {
 			return (a < b ? -1 : a > b);
 		}
 

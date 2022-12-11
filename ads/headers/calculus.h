@@ -4,6 +4,7 @@
 #pragma once
 #include <algorithm>
 #include <cmath>
+#include "core.h"
 
 namespace ads
 {
@@ -20,17 +21,19 @@ namespace ads
                 if (a > b)
                     std::swap(a, b);
 
-                while (std::abs(fun((a + b) / 2.0)) > eps)
+                T half = (a + b) / 2.0;
+                while (std::abs(fun(half)) > eps)
                 {
-                    if (fun(a) * fun((a + b) / 2.0) < 0.0)
-                        b = (a + b) / 2.0;
-                    else if (fun((a + b) / 2.0) * fun(b) < 0.0)
-                        a = (a + b) / 2.0;
+                    half = (a + b) / 2.0;
+                    if (fun(a) * fun(half) <= 0.0)
+                        b = half;
+                    else if (fun(half) * fun(b) < 0.0)
+                        a = half;
                     else
                         break;
                 }
 
-                return (a + b) / 2.0;
+                return half;
             }
 
             template<typename f,typename T>

@@ -21,30 +21,30 @@ namespace ads
             const size_t DimRealSpace = 3;
 
             template<size_t size, typename T>
-            class vector;
+            class Vector;
 
             template<typename T = float, size_t size = 2, typename = std::enable_if_t<std::is_arithmetic<T>::value>>
-            class matrix
+            class Matrix
             {
             public:
                 template<typename type, typename = std::enable_if_t<std::is_arithmetic<type>::value>>
-                matrix(type num) :data{T(0.0)}
+                Matrix(type num) :data{T(0.0)}
                 {
                     for (size_t i = 0; i < size; ++i)
                         data[i][i] = num;
                 }
 
                 template<typename type, typename = std::enable_if_t<std::is_arithmetic<type>::value>>
-                matrix(std::initializer_list<std::initializer_list<type>> mat)
+                Matrix(std::initializer_list<std::initializer_list<type>> mat)
                 {
                     size_t i = 0;
                     for (const auto& vec : mat)
                         std::copy(vec.begin(), vec.end(), data[i]), ++i;
                 }
 
-                matrix<T,size> operator*(const matrix<T, size>& r)
+                Matrix<T,size> operator*(const Matrix<T, size>& r)
                 {
-                    matrix<T, size> result(static_cast<T>(0.0));
+                    Matrix<T, size> result(static_cast<T>(0.0));
                     for (size_t i = 0; i < size; ++i)
                         for (size_t j = 0; j < size; ++j)
                             for (size_t k = 0; k < size; ++k)
@@ -52,18 +52,18 @@ namespace ads
                     return result;
                 }
 
-                matrix<T, size> operator-(const matrix<T, size>& r) 
+                Matrix<T, size> operator-(const Matrix<T, size>& r) 
                 {
-                    matrix<T, size> result(static_cast<T>(0.0));
+                    Matrix<T, size> result(static_cast<T>(0.0));
                     for (size_t i = 0; i < size; ++i)
                         for (size_t j = 0; j < size; ++j)
                             result[i][j] = data[i][j] - r[i][j];
                     return result;
                 }
 
-                matrix<T, size> operator+(const matrix<T, size>& r)
+                Matrix<T, size> operator+(const Matrix<T, size>& r)
                 {
-                    matrix<T, size> result(static_cast<T>(0.0));
+                    Matrix<T, size> result(static_cast<T>(0.0));
                     for (size_t i = 0; i < size; ++i)
                         for (size_t j = 0; j < size; ++j)
                             result[i][j] = data[i][j] + r[i][j];
@@ -81,9 +81,9 @@ namespace ads
                 }
 
                 template<typename type = float, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
-                vector<size, type > operator*(const vector<size,type>& vec)
+                Vector<size, type > operator*(const Vector<size,type>& vec)
                 {
-                    vector<size, type> res(T(0.0));
+                    Vector<size, type> res(T(0.0));
                     for (size_t i = 0; i < size; ++i)
                         for (size_t j = 0; j < size; ++j)
                             res[i] += data[i][j] * vec[j];
@@ -95,45 +95,45 @@ namespace ads
             };
 
             template<size_t size, typename T>
-            class vector
+            class Vector
             {
             public:
 
                 template <typename... Scalars,typename = std::enable_if_t<sizeof...(Scalars) <= size && std::is_arithmetic<typename templatesUtils::tuple<Scalars...>::value_type>::value>>
-                explicit vector(Scalars... coords):data{ static_cast<T>(coords)... }
+                explicit Vector(Scalars... coords):data{ static_cast<T>(coords)... }
                 {
                 }
 
                 template <typename type, std::enable_if_t<std::is_arithmetic_v<type>, bool> = true>
-                vector(type* arr)
+                Vector(type* arr)
                 {
                     std::memcpy(data, arr, sizeof(type) * size);
                 }
 
                 template <typename type, std::enable_if_t<std::is_arithmetic_v<type>, bool> = true>
-                vector()
+                Vector()
                 {
                     std::memset(data, 0, sizeof(type) * size);
                 }
 
-                vector<size, T> operator +(const vector<size, T>& vec)
+                Vector<size, T> operator +(const Vector<size, T>& vec)
                 {
-                    vector<size, T> tmp(T(0.0));
+                    Vector<size, T> tmp(T(0.0));
                     for (size_t i = 0; i < size; ++i)
                         tmp[i] = vec[i] + data[i];
                     return tmp;
                 }
 
-                vector<size, T> operator -(const vector<size, T>& vec)
+                Vector<size, T> operator -(const Vector<size, T>& vec)
                 {
-                    vector<size, T> tmp(T(0));
+                    Vector<size, T> tmp(T(0));
                     for (size_t i = 0; i < size; ++i)
                         tmp[i] = vec[i] - data[i];
                     return tmp;
                 }
 
                 //dot product
-                T operator *(const vector<size, T>& vec) const
+                T operator *(const Vector<size, T>& vec) const
                 {
                     T res = T(0);
                     for (size_t i = 0; i < size; ++i)
@@ -143,25 +143,25 @@ namespace ads
                 }
 
                 template<typename type = float,class = typename std::enable_if_t<std::is_arithmetic_v<type>>>
-                vector<size, T> operator*(type num) const
+                Vector<size, T> operator*(type num) const
                 {
-                    vector temp(*this);
+                    Vector temp(*this);
                     for (size_t i = 0; i < size; ++i)
                         temp[i] *= num;
                     return temp;
                 }
 
                 template<typename type = float, class = typename std::enable_if_t<std::is_arithmetic_v<type>>>
-                vector<size, T> operator/(type num) const
+                Vector<size, T> operator/(type num) const
                 {
-                    vector temp(*this);
+                    Vector temp(*this);
                     for (size_t i = 0; i < size; ++i)
                         temp[i] /= num;
                     return temp;
                 }
 
                 template<typename type = float, class = typename std::enable_if_t<std::is_arithmetic_v<type>>>
-                vector<size, T>& operator /=(type num)
+                Vector<size, T>& operator /=(type num)
                 {
                     for (size_t i = 0; i < size; ++i)
                         data[i] /= num;
@@ -169,28 +169,28 @@ namespace ads
                 }
 
                 template<typename type = float, class = typename std::enable_if_t<std::is_arithmetic_v<type>>>
-                vector<size, T>& operator *=(type num)
+                Vector<size, T>& operator *=(type num)
                 {
                     for (size_t i = 0; i < size; ++i)
                         data[i] *= num;
                     return *this;
                 }
 
-                vector<size, T>& operator +=(const vector<size, T>& vec)
+                Vector<size, T>& operator +=(const Vector<size, T>& vec)
                 {
                     for (size_t i = 0; i < size; ++i)
                         data[i] += vec[i];
                     return *this;
                 }
 
-                vector<size, T>& operator *=(const vector<size, T>& vec)
+                Vector<size, T>& operator *=(const Vector<size, T>& vec)
                 {
                     for (size_t i = 0; i < size; ++i)
                         data[i] *= vec[i];
                     return *this;
                 }
 
-                vector<size, T>& operator =(const vector<size, T>& vec)
+                Vector<size, T>& operator =(const Vector<size, T>& vec)
                 {
                     for (size_t i = 0; i < size; ++i)
                         data[i] = vec[i];
@@ -198,7 +198,7 @@ namespace ads
                 }
 
                 template<size_t s, typename type>
-                friend vector<s, type> operator*(type num, const vector<s, type>& vec);
+                friend Vector<s, type> operator*(type num, const Vector<s, type>& vec);
 
                 inline T& operator[](std::size_t index)
                 {
@@ -215,7 +215,7 @@ namespace ads
                 //    return data[index];
                // }
 
-                vector<size, T> slice(int32_t first, int32_t last)
+                Vector<size, T> slice(int32_t first, int32_t last)
                 {
                     if (first > size || last > size || std::abs(first - last) > size)
                         throw(std::range_error("bad vector slice"));
@@ -230,7 +230,7 @@ namespace ads
                         if (first > last)
                             differenc = -1;
 
-                        vector<size, T> res(T(0));
+                        Vector<size, T> res(T(0));
                         int32_t k = 0;
                         for (int32_t i = first; i != last; i += differenc)
                             res[k++] = data[i];
@@ -244,9 +244,9 @@ namespace ads
                 inline T* ptr() const { return data; }
 
                 template<typename type, class = typename std::enable_if_t<std::is_arithmetic_v<type>>>
-                operator vector<size, type>()
+                operator Vector<size, type>()
                 {
-                    vector<size, type> res(type(0));
+                    Vector<size, type> res(type(0));
                     for (size_t i = 0; i < size; ++i)
                         res[i] = static_cast<type>(data[i]);
                     return res;
@@ -254,7 +254,7 @@ namespace ads
 
                 T length() const 
                 {
-                    const vector<size, T>& THIS = *this;
+                    const Vector<size, T>& THIS = *this;
                     return std::sqrt(THIS * THIS);
                 }
 
@@ -265,16 +265,16 @@ namespace ads
 
             //cross product 
             template <typename T = float,class = typename std::enable_if_t<std::is_arithmetic_v<T>>>
-            vector<DimRealSpace, T> cross(const vector<DimRealSpace, T>& vec1,const vector<DimRealSpace, T>& vec2)
+            Vector<DimRealSpace, T> cross(const Vector<DimRealSpace, T>& vec1,const Vector<DimRealSpace, T>& vec2)
             {
                
-                return vector<3, T>(vec2[1] * vec1[2] - vec2[2] * vec1[1],
+                return Vector<3, T>(vec2[1] * vec1[2] - vec2[2] * vec1[1],
                                     vec2[2] * vec1[0] - vec2[0] * vec1[2],
                                     vec2[0] * vec1[1] - vec2[1] * vec1[0]);
             }
 
             template<size_t size, typename T>
-            vector<size, T> operator*(T num, const vector<size, T>& vec)
+            Vector<size, T> operator*(T num, const Vector<size, T>& vec)
             {
                 return vec * num;
             }
@@ -338,18 +338,18 @@ namespace ads
                 {
                 }
 
-                vector<size, T> eval(T t)
+                Vector<size, T> eval(T t)
                 {
-                    ads::mathematics::geometry::vector<size, T> res(T(0.0));    
+                    Vector<size, T> res(T(0.0));    
                     for (size_t i = 0;i < size;++i)
                         res[i] = data[i](t);
                     return res;
                 }
 
                 /*t - point, n - number of der,h - step (error)*/
-                vector<size, T> derivative(T t, size_t n, T h)
+                Vector<size, T> derivative(T t, size_t n, T h)
                 {
-                    vector<size, T> res(eval(t));
+                    Vector<size, T> res(eval(t));
                     T sign = -1;
 
                     for (size_t i = 0; i < n; ++i,sign *= -1) 
@@ -360,9 +360,9 @@ namespace ads
                     return res * sign / pow(h, n);
                 }
 
-                vector<size, T> tangent(T t)
+                Vector<size, T> tangent(T t)
                 {
-                    vector<size, T> res(T(0.0));
+                    Vector<size, T> res(T(0.0));
                     res = derivative(t, 1, 0.001);
 
                     return res / res.length();
@@ -370,41 +370,41 @@ namespace ads
 
                 T curvature(T t) 
                 {
-                    vector<3, T> _1der = derivative(t, 1, 0.001);
+                    Vector<3, T> _1der = derivative(t, 1, 0.001);
                     return cross(derivative(t, 2, 0.001), _1der).length() / pow(_1der.length(), 3);
                 }
 
-                vector<size, T> norm(T t)
+                Vector<size, T> norm(T t)
                 {
-                    vector<size, T> _1der = derivative(t, 1, 0.001);
-                    vector<size, T> _2der = derivative(t, 2, 0.001);
+                    Vector<size, T> _1der = derivative(t, 1, 0.001);
+                    Vector<size, T> _2der = derivative(t, 2, 0.001);
 
                     return _2der / pow(_2der.length(), 2) - (_1der * _2der / pow(_1der.length(), 4)) * _1der;
                 }
 
-                vector<3, T> binorm(T t) 
+                Vector<3, T> binorm(T t) 
                 {
-                    vector<3, T> _1der = derivative(t, 1, 0.001);
-                    vector<3, T> _2der = derivative(t, 2, 0.001);
-                    vector<3, T> cr = cross(_1der, _2der);
+                    Vector<3, T> _1der = derivative(t, 1, 0.001);
+                    Vector<3, T> _2der = derivative(t, 2, 0.001);
+                    Vector<3, T> cr = cross(_1der, _2der);
                     
                     return cr / cr.length();
                 }
 
                 T curvatureRadius(T t) 
                 {
-                    vector<3, T> _1der = derivative(t, 1, 0.001);
-                    vector<3, T> _2der = derivative(t, 2, 0.001);
+                    Vector<3, T> _1der = derivative(t, 1, 0.001);
+                    Vector<3, T> _2der = derivative(t, 2, 0.001);
 
                     return pow(_1der.length(), 3) / cross(_1der, _2der).length();
                 }
                 
                 T torsion(T t) 
                 {
-                    vector<3, T> _1der = derivative(t, 1, 0.001);
-                    vector<3, T> _2der = derivative(t, 2, 0.001);
-                    vector<3, T> _3der = derivative(t, 3, 0.001);
-                    vector<3, T> cr = cross(_1der, _2der);
+                    Vector<3, T> _1der = derivative(t, 1, 0.001);
+                    Vector<3, T> _2der = derivative(t, 2, 0.001);
+                    Vector<3, T> _3der = derivative(t, 3, 0.001);
+                    Vector<3, T> cr = cross(_1der, _2der);
 
                     return cr * _3der / pow(cr.length(), 2);
                 }
@@ -419,7 +419,7 @@ namespace ads
             class ellipse:public curve<size, T>
             {
             public:
-                ellipse(T a, T b, vector<size, T> center = vector<size, T>(0)):curve<size, T>(
+                ellipse(T a, T b, Vector<size, T> center = Vector<size, T>(0)):curve<size, T>(
                     [=](T t) 
                     {
                         return a * std::cos(t) + center[0]; 
@@ -435,32 +435,32 @@ namespace ads
             class circle :public ellipse<size, T>
             {
             public:
-                circle(T radius, vector<size, T> center = vector<size, T>(0)):ellipse<size, T>(radius, radius, center) {}
+                circle(T radius, Vector<size, T> center = Vector<size, T>(0)):ellipse<size, T>(radius, radius, center) {}
             };
 
             template<size_t size, typename T, class = typename std::enable_if_t<std::is_arithmetic_v<T> && (size == 2 || size == 3)>>
             class hyperbola:curve<size,T>
             {
             public:
-                hyperbola(T a,T b, vector<size, T> center = vector<size, T>(0)):curve<size, T>([&](T t) {return a * std::cosh(t) + center[0]; }, [&](T t) {return b * std::sinh(t) + center[1]; }, [&](T t) {return center[2]; }){}
+                hyperbola(T a,T b, Vector<size, T> center = Vector<size, T>(0)):curve<size, T>([&](T t) {return a * std::cosh(t) + center[0]; }, [&](T t) {return b * std::sinh(t) + center[1]; }, [&](T t) {return center[2]; }){}
             };
 
             template<size_t size, typename T,  class = typename std::enable_if_t<std::is_arithmetic_v<T> && (size == 2 || size == 3)>>
             class parabola:curve<size, T>
             {
             public:
-                parabola(T focus, vector<size, T> center = vector<size, T>(0)):curve<size, T>([&](T t) {return focus * t * t + center[0]; }, [&](T t) {return 2 * focus * t + center[1]; }, [&](T t) {return center[2]; }) {}
+                parabola(T focus, Vector<size, T> center = Vector<size, T>(0)):curve<size, T>([&](T t) {return focus * t * t + center[0]; }, [&](T t) {return 2 * focus * t + center[1]; }, [&](T t) {return center[2]; }) {}
             };
 
             template<typename T, class = typename std::enable_if_t<std::is_arithmetic_v<T>>>
             class spiral:curve<3, T>
             {
             public:
-                spiral(T radius,T step, vector<3, T> center = vector<3, T>(0)):curve<3, T>([&](T t) {return radius * std::cos(t) + center[0]; }, [&](T t) {return radius * std::sin(t) + center[1]; }, [&](T t) {return step * t/(2 * Pi) + center[2]; }) {}
+                spiral(T radius,T step, Vector<3, T> center = Vector<3, T>(0)):curve<3, T>([&](T t) {return radius * std::cos(t) + center[0]; }, [&](T t) {return radius * std::sin(t) + center[1]; }, [&](T t) {return step * t/(2 * Pi) + center[2]; }) {}
             };
 
             template<typename T,template <typename... Args> class Container, typename... Types>
-            curve<2,T> LagrangeSplain(const Container<vector<2,T>,Types...>& points)
+            curve<2,T> LagrangeSplain(const Container<Vector<2,T>,Types...>& points)
             {
                 return curve<2,T>([](T x) {return x; }, [=](T y)
                     {
@@ -478,7 +478,7 @@ namespace ads
             }
 
             template<typename T, template <typename... Args> class Container, typename... Types>
-            curve<2,T> NewtonSplain(const Container<vector<2,T>, Types...>& points) 
+            curve<2,T> NewtonSplain(const Container<Vector<2,T>, Types...>& points) 
             {
                std::shared_ptr<T[]> ACoefs(new T[points.size()]);
 
@@ -520,13 +520,13 @@ namespace ads
             }
         
             template<typename T, template <typename... Args> class Container, typename... Types>
-            curve<2, T> ErmitSplain(const Container<vector<2, T>, Types...>& points) 
+            curve<2, T> ErmitSplain(const Container<Vector<2, T>, Types...>& points) 
             {
                 
             }
 
             template<typename T, template <typename... Args> class Container, typename... Types>
-            curve<2, T> BazieSplain(const Container<vector<2, T>, Types...>& points)
+            curve<2, T> BazieSplain(const Container<Vector<2, T>, Types...>& points)
             {
                 std::shared_ptr<T[]> Bi(new T[points.size()]);
                 T N = points.size();
