@@ -29,7 +29,7 @@ namespace ads
             };
 
             template<typename T>
-            struct Ring:public AdditiveGroup<T>,public MultiplicativeGroup<T>
+            struct Ring : AdditiveGroup<T>, MultiplicativeGroup<T>
             {
             };
 
@@ -183,10 +183,7 @@ namespace ads
                         out << std::showpos << it->first << "x^(" << std::noshowpos << it->second << ")";
                 }
                 return out;
-            }
-        
-
-        
+            }        
         }
     }
 }

@@ -26,11 +26,11 @@ retT f2(retT x)
 }
 
 
-struct PointCmp {
-    bool operator()(const ads::mathematics::geometry::vector<2, double>& lhs, const ads::mathematics::geometry::vector<2,double>& rhs) const {
-        return lhs[0] < rhs[0];
-    }
-};
+//struct PointCmp {
+//    bool operator()(const ads::mathematics::geometry::vector<2, double>& lhs, const ads::mathematics::geometry::vector<2,double>& rhs) const {
+//        return lhs[0] < rhs[0];
+//    }
+//};
 
 // TODO
 // Separet on tests case
@@ -57,10 +57,8 @@ int main()
     //vec.z();
     //ads::mathematics::geometry::vector<float, 3> res = vec2 * 2;
     //std::cout << res.y();
-    ads::mathematics::geometry::curve<3,double> a(f, f1, f2);
-    ads::mathematics::geometry::vector<3,float> t = a.derivative(1.0,2,.001);
 
-    ads::mathematics::geometry::curve<3, double> cur(f,f1);
+    /*ads::mathematics::geometry::curve<3, double> cur(f,f1);
     ads::mathematics::geometry::vector<3, double> tan = cur.tangent(0.5);
     double c = cur.curvature(0.5);
     ads::mathematics::geometry::vector<3, double> normal = cur.norm(0);
@@ -82,7 +80,7 @@ int main()
     ads::mathematics::geometry::curve<2, double> splain3 = BazieSplain(points);
     double res = splain.eval(323.5)[1];//2.50987
     double res2 = splain2.eval(323.5)[1];//2.50987
-    double res3 = splain3.eval(323.5)[1];
+    double res3 = splain3.eval(323.5)[1];*/
 
     return 0;
 }

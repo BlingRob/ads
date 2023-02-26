@@ -11,6 +11,9 @@ enable_testing()
 add_executable(
   ${PROJECT_NAME}
   entry.cpp
+  ads/algebra.cpp
+  ads/calculus.cpp
+  ads/geometry/curve.cpp
 #  ${CPP_FILES}
 #  ${H_FILES}
 )
@@ -23,4 +26,3 @@ include_directories(${ADS_HEADER_DIR})
 
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME})
-

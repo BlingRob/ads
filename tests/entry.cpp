@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include "ads/calculus.h"
-#include "ads/algebra.h"
+// #include "ads/calculus.h"
+// #include "ads/algebra.h"
+// #include "ads/geometry.h"
 
 int main(int argc, char **argv)
 {
