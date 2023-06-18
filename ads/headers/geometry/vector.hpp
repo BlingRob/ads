@@ -203,7 +203,7 @@ namespace ads
                 T data[size]{ T() };
             };
 
-            //cross product 
+            /// brief cross product 
             template <typename T = float, class = typename std::enable_if_t<std::is_arithmetic_v<T>>>
             Vector<DimRealSpace, T> cross(const Vector<DimRealSpace, T>& vec1, const Vector<DimRealSpace, T>& vec2)
             {
@@ -219,6 +219,7 @@ namespace ads
                 return vec * num;
             }
 
+            /// @brief Equlity two vectors
             template<size_t size, typename T>
             bool isEqual(const Vector<size, T>& lvec, const Vector<size, T>& rvec, T accuracy)
             {
@@ -227,6 +228,28 @@ namespace ads
                 res *=  multiplier;
 
                 return abs(res[0]) <= multiplier && abs(res[1]) <= multiplier && abs(res[2]) <= multiplier;
+            }
+
+            /// @brief cos between two vectors
+            template<size_t size, typename T>
+            T cos(const Vector<size, T>& lvec, const Vector<size, T>& rvec)
+            {
+                return (lvec * rvec) / (lvec.length() * rvec.length());
+            }
+
+            /// @brief check two vectors is orthogonal
+            template<size_t size, typename T>
+            bool IsOrth(const Vector<size, T>& lvec, const Vector<size, T>& rvec, T accuracy = T(0.001))
+            {
+                return (lvec * rvec) < accuracy;
+            }
+
+            /// @brief check two vectors parallel
+            /// @return 1 if parallel, -1 if antiparallel
+            template<size_t size, typename T>
+            int16_t IsParallel(const Vector<size, T>& lvec, const Vector<size, T>& rvec)
+            {
+                return cos(lvec, rvec);
             }
 
         } // namespace geometry
