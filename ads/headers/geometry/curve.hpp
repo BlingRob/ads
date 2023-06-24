@@ -1,3 +1,5 @@
+/// @file curve.hpp
+/// @brief define curve class
 
 #include "vector.hpp"
 #include <iostream>

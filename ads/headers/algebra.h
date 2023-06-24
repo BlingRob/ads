@@ -1,6 +1,10 @@
-// \\\ file algebra.h 
-// \\\ Some algebraic staff
+/// @file algebra.h 
+/// @brief Some algebraic staff
+
 #pragma once
+#ifndef __ALGEBRA_H__
+#define __ALGEBRA_H__
+
 #include <tuple>
 #include <iostream>
 #include <set>
@@ -187,3 +191,5 @@ namespace ads
         }
     }
 }
+
+#endif // __ALGEBRA_H__

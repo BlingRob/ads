@@ -1,6 +1,6 @@
-// \\\ file geometry.h 
-// \\\ It's the most important section,
-// \\\ because I am interesting computer graphics, geometry modeling and mechanics. :)
+/// @file vector.hpp 
+/// @brief Definition vector class
+
 #pragma once
 #ifndef __VECTOR_HPP__
 #define __VECTOR_HPP__
@@ -211,7 +211,7 @@ namespace ads
                 T data[size]{ T() };
             };
 
-            /// brief cross product 
+            /// @brief cross product 
             template <typename T = float, class = typename std::enable_if_t<std::is_arithmetic_v<T>>>
             Vector<DimRealSpace, T> Cross(const Vector<DimRealSpace, T>& vec1, const Vector<DimRealSpace, T>& vec2)
             {
@@ -232,10 +232,10 @@ namespace ads
             bool isEqual(const Vector<size, T>& lvec, const Vector<size, T>& rvec, T accuracy)
             {
                 Vector<size, T> res = lvec - rvec;
-                uint64_t multiplier = static_cast<uint64_t>(1.0 / accuracy);
-                res *=  multiplier;
+                //uint64_t multiplier = static_cast<uint64_t>(1.0 / accuracy);
+                //res *=  multiplier;
 
-                return abs(res[0]) <= multiplier && abs(res[1]) <= multiplier && abs(res[2]) <= multiplier;
+                return abs(res[0]) <= accuracy && abs(res[1]) <= accuracy && abs(res[2]) <= accuracy;
             }
 
             /// @brief cos between two vectors

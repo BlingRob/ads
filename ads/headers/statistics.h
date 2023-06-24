@@ -1,6 +1,10 @@
-// \\\ file statistics.h
+/// @file statistics.h
+/// @brief A few statistic functions
 
 #pragma once
+#ifndef __STATISTICS_H__
+#define __STATISTICS_H__
+
 #include "core.h"
 #include <type_traits>
 #include <algorithm>
@@ -104,3 +108,5 @@ namespace ads
         }
     }
 }
+
+#endif // __STATISTICS_H__

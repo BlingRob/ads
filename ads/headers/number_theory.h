@@ -1,6 +1,10 @@
-// \\\ file numberTheory.h
+/// @file number_theory.h
+/// @brief A few number theory functions
 
 #pragma once
+#ifndef __NUMBER_THEORY_H__
+#define __NUMBER_THEORY_H__
+
 #include "core.h"
 #include <numeric>
 #include <limits>
@@ -235,5 +239,6 @@ namespace ads
         }
 
     }
-
 }
+
+#endif // __NUMBER_THEORY_H__

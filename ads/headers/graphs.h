@@ -1,6 +1,10 @@
-// \\\ file graphs.h
-// \\\ There will be graph theory's functions 
+/// @file graphs.h
+/// @brief There will be graph theory's functions 
+
 #pragma once
+#ifndef __GRAPH_H__
+#define __GRAPH_H__
+
 #include <vector>
 #include <tuple>
 
@@ -173,3 +177,5 @@ namespace ads
         }
     }
 }
+
+#endif // __GRAPH_H__

@@ -1,6 +1,9 @@
-// \\\ file mathematics.h
-// \\\ maths core defenitions
+/// @file mathematics.h
+/// @brief Maths core defenitions
+
 #pragma once
+#ifndef __MATHEMATICS_H__
+#define __MATHEMATICS_H__
 #include <type_traits>
 
 namespace ads
@@ -50,7 +53,7 @@ namespace ads
 			return (a < b ? -1 : a > b);
 		}
 
-		uint64_t factorial(uint64_t n) 
+		inline uint64_t factorial(uint64_t n) 
 		{
 			uint64_t res = 1;
 			
@@ -59,7 +62,7 @@ namespace ads
 			return res;
 		}
 
-		uint64_t C(uint64_t n, uint64_t k) 
+		inline uint64_t C(uint64_t n, uint64_t k) 
 		{
 			if (n > k)
 				return factorial(n) / (factorial(k) * factorial(n - k));
@@ -68,3 +71,5 @@ namespace ads
 		}
 	}
 }
+
+#endif // __MATHEMATICS_H__

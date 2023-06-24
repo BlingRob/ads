@@ -1,4 +1,5 @@
-
+/// @file matrix.hpp 
+/// @brief Definition matrix class
 
 #pragma once
 #ifndef __MATRIX_HPP__

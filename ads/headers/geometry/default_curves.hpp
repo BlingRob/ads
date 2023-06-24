@@ -1,3 +1,6 @@
+/// @file default_curves.hpp
+/// @brief define default parametric curves
+
 #pragma once
 #ifndef __DEFAULT_CURVES_HPP__
 #define __DEFAULT_CURVES_HPP__

@@ -12,7 +12,7 @@ file(GLOB_RECURSE HEADER_FILES
 			headers/*.hpp)
 
 #TODO while it is not library
-set(ADS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers CACHE STRING "Vulkan headers")	
+set(ADS_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers CACHE STRING "ADS headers")	
 include_directories(${ADS_HEADER_DIR})
 
 #add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})

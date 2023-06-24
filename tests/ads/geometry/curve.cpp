@@ -1,4 +1,5 @@
-/// @file tests for geometry module
+/// @file curve.cpp
+/// @brief tests for geometry module - curve
 #include <geometry/curve.hpp>
 
 #include <gtest/gtest.h>

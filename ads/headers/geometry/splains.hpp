@@ -1,3 +1,5 @@
+/// @file splains.hpp 
+/// @brief Definition splain functions
 
 #pragma once
 #ifndef __SPLAINS_HPP__

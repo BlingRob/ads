@@ -1,7 +1,11 @@
-// \\\ file calculus.h 
-// \\\ Standart calculus things.
-// \\\ Now there is solver of function's root
+/// @file calculus.h 
+/// @brief Standart calculus things.
+/// @brief Now there is solver of function's root
+
 #pragma once
+#ifndef __CALCULUS_H__
+#define __CALCULUS_H__
+
 #include <algorithm>
 #include <cmath>
 #include "core.h"
@@ -83,3 +87,5 @@ namespace ads
         }
     }
 }
+
+#endif // __CALCULUS_H__

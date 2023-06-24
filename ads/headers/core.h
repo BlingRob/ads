@@ -1,6 +1,10 @@
-// \\\ file core.h 
-// \\\ Common using things and structure all project
+/// @file core.h 
+/// @brief Common using things and structure all project
+
 #pragma once
+#ifndef __CORE_H__
+#define __CORE_H__
+
 #include <set>
 
 namespace ads
@@ -82,3 +86,5 @@ namespace ads
 
     }
 }
+
+#endif // __CORE_H__
