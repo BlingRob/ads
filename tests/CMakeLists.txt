@@ -6,6 +6,10 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/TestSuits.cmake)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/exe CACHE PATH "" FORCE)
 
+if(NOT ${CMAKE_BUILD_TYPE})
+  set(${CMAKE_BUILD_TYPE} "Debug")
+endif()
+
 enable_testing()
 
 add_executable(

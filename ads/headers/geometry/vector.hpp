@@ -11,6 +11,7 @@
 #include <cstring>
 #include <functional>
 #include <memory>
+#include <math.h>
 #include "../mathematics.h"
 #include "matrix.hpp"
 
@@ -155,7 +156,7 @@ namespace ads
                     return true;
                 }
 
-                Vector<size, T> slice(int32_t first, int32_t last)
+                Vector<size, T> slice(int32_t first, int32_t last) const
                 {
                     if (first > size || last > size || std::abs(first - last) > size)
                         throw(std::range_error("bad vector slice"));
@@ -184,7 +185,7 @@ namespace ads
                 inline const T* ptr() const { return &data[0]; }
 
                 template<typename Type, typename = std::enable_if_t<std::is_arithmetic_v<Type>>>
-                operator Vector<size, Type>()
+                operator Vector<size, Type>() const
                 {
                     Vector<size, Type> res(Type(0));
                     for (size_t i = 0; i < size; ++i)
@@ -192,10 +193,17 @@ namespace ads
                     return res;
                 }
 
-                T length() const 
+                T Length() const 
                 {
                     const Vector<size, T>& THIS = *this;
                     return std::sqrt(THIS * THIS);
+                }
+
+                /// @brief normalizing vector
+                /// @return normalized vector
+                Vector<size, T> Norm() const
+                {
+                    return *this / Length();
                 }
 
             private:
@@ -205,7 +213,7 @@ namespace ads
 
             /// brief cross product 
             template <typename T = float, class = typename std::enable_if_t<std::is_arithmetic_v<T>>>
-            Vector<DimRealSpace, T> cross(const Vector<DimRealSpace, T>& vec1, const Vector<DimRealSpace, T>& vec2)
+            Vector<DimRealSpace, T> Cross(const Vector<DimRealSpace, T>& vec1, const Vector<DimRealSpace, T>& vec2)
             {
                
                 return Vector<3, T>(vec2[1] * vec1[2] - vec2[2] * vec1[1],
@@ -232,9 +240,9 @@ namespace ads
 
             /// @brief cos between two vectors
             template<size_t size, typename T>
-            T cos(const Vector<size, T>& lvec, const Vector<size, T>& rvec)
+            T Cos(const Vector<size, T>& lvec, const Vector<size, T>& rvec)
             {
-                return (lvec * rvec) / (lvec.length() * rvec.length());
+                return (lvec * rvec) / (lvec.Length() * rvec.Length());
             }
 
             /// @brief check two vectors is orthogonal
@@ -249,7 +257,16 @@ namespace ads
             template<size_t size, typename T>
             int16_t IsParallel(const Vector<size, T>& lvec, const Vector<size, T>& rvec)
             {
-                return cos(lvec, rvec);
+                return Cos(lvec, rvec);
+            }
+
+            /// @brief projection one vector to another
+            /// @return projection vector lvec on rvec
+            template<size_t size, typename T>
+            T Proj(const Vector<size, T>& lvec, const Vector<size, T>& rvec)
+            {
+                auto normRVec = rvec.Norm();
+                return (lvec * normRVec) * normRVec;
             }
 
         } // namespace geometry

@@ -1,6 +1,6 @@
 
 #include "vector.hpp"
-
+#include <iostream>
 #pragma once
 #ifndef __CURVE_HPP__
 #define __CURVE_HPP__
@@ -70,7 +70,7 @@ namespace ads
                 {
                 }
 
-                Vector<size, T> eval(T t)
+                Vector<size, T> Eval(T t)
                 {
                     Vector<size, T> res(T(0.0));    
                     for (size_t i = 0; i < size; ++i)
@@ -79,66 +79,66 @@ namespace ads
                 }
 
                 /*t - point, n - number of der,h - step (error)*/
-                Vector<size, T> derivative(T t, size_t n, T h)
+                Vector<size, T> Derivative(T t, size_t n, T h)
                 {
-                    Vector<size, T> res(eval(t));
+                    Vector<size, T> res(Eval(t));
                     T sign = -1;
 
-                    for (size_t i = 0; i < n; ++i,sign *= -1) 
-                        res += sign * static_cast<T>(C(n, i)) * eval(t + static_cast<T>(i + 1) * h);
-                    
+                    for (size_t i = 0; i < n; ++i, sign *= -1)
+                    {
+                        res += sign * static_cast<T>(C(n, i + 1)) * Eval(t + static_cast<T>(i + 1) * h);
+                    }
                     sign *= -1;
-
-                    return res * sign / pow(h, n);
+                    return res * sign / std::pow(h, n);
                 }
 
-                Vector<size, T> tangent(T t)
+                Vector<size, T> Tangent(T t)
                 {
                     Vector<size, T> res(T(0.0));
-                    res = derivative(t, 1, 0.001);
+                    res = Derivative(t, 1, 0.001);
 
-                    return res / res.length();
+                    return res / res.Length();
                 }
 
-                T curvature(T t) 
+                T Curvature(T t) 
                 {
-                    Vector<3, T> _1der = derivative(t, 1, 0.001);
-                    return cross(derivative(t, 2, 0.001), _1der).length() / pow(_1der.length(), 3);
+                    Vector<3, T> _1der = Derivative(t, 1, 0.001);
+                    return Cross(Derivative(t, 2, 0.001), _1der).Length() / pow(_1der.Length(), 3);
                 }
 
-                Vector<size, T> norm(T t)
+                Vector<size, T> Norm(T t)
                 {
-                    Vector<size, T> _1der = derivative(t, 1, 0.001);
-                    Vector<size, T> _2der = derivative(t, 2, 0.001);
+                    Vector<size, T> _1der = Derivative(t, 1, 0.001);
+                    Vector<size, T> _2der = Derivative(t, 2, 0.001);
 
-                    return _2der / pow(_2der.length(), 2) - (_1der * _2der / pow(_1der.length(), 4)) * _1der;
+                    return _2der / pow(_2der.Length(), 2) - (_1der * _2der / pow(_1der.Length(), 4)) * _1der;
                 }
 
-                Vector<3, T> binorm(T t) 
+                Vector<3, T> Binorm(T t) 
                 {
-                    Vector<3, T> _1der = derivative(t, 1, 0.001);
-                    Vector<3, T> _2der = derivative(t, 2, 0.001);
-                    Vector<3, T> cr = cross(_1der, _2der);
+                    Vector<3, T> _1der = Derivative(t, 1, 0.001);
+                    Vector<3, T> _2der = Derivative(t, 2, 0.001);
+                    Vector<3, T> cr = Cross(_1der, _2der);
                     
-                    return cr / cr.length();
+                    return cr / cr.Length();
                 }
 
-                T curvatureRadius(T t) 
+                T CurvatureRadius(T t) 
                 {
-                    Vector<3, T> _1der = derivative(t, 1, 0.001);
-                    Vector<3, T> _2der = derivative(t, 2, 0.001);
+                    Vector<3, T> _1der = Derivative(t, 1, 0.001);
+                    Vector<3, T> _2der = Derivative(t, 2, 0.001);
 
-                    return pow(_1der.length(), 3) / cross(_1der, _2der).length();
+                    return pow(_1der.Length(), 3) / Cross(_1der, _2der).Length();
                 }
                 
-                T torsion(T t) 
+                T Torsion(T t) 
                 {
-                    Vector<3, T> _1der = derivative(t, 1, 0.001);
-                    Vector<3, T> _2der = derivative(t, 2, 0.001);
-                    Vector<3, T> _3der = derivative(t, 3, 0.001);
-                    Vector<3, T> cr = cross(_1der, _2der);
+                    Vector<3, T> _1der = Derivative(t, 1, 0.001);
+                    Vector<3, T> _2der = Derivative(t, 2, 0.001);
+                    Vector<3, T> _3der = Derivative(t, 3, 0.001);
+                    Vector<3, T> cr = Cross(_1der, _2der);
 
-                    return cr * _3der / pow(cr.length(), 2);
+                    return cr * _3der / pow(cr.Length(), 2);
                 }
 
             private:
@@ -146,6 +146,16 @@ namespace ads
                 //fun_t data[DimRealSpace];
                 //std::initializer_list<fun_t> data{ [](T x) {return T(0); }, [](T x) {return T(0); }, [](T x) {return T(0); } };
             };
+
+            /// @brief projection vector on plane
+            /// @return projection vector lvec on plane
+            /*template<size_t size, typename T>
+            T proj(const Vector<size, T>& lvec, const Curve<size, T>& plane)
+            {
+                auto norm = plane.  rvec.Norm();
+                return (lvec * normRVec) * normRVec;
+            }*/
+
         } // namespace geometry
     } // namespace mathematics
 } // namespace ads
