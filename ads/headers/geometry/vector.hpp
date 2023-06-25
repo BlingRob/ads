@@ -23,69 +23,72 @@ namespace ads
         {
             const size_t DimRealSpace = 3;
 
+            /// @brief For operation with matrix
             template<size_t size, typename T>
             class Matrix;
 
+            /// @brief Class definition
+            /// @tparam T type of elements
+            /// @tparam size length
             template<size_t size, typename T>
             class Vector
             {
             public:
-
-                template <typename... Scalars, typename = std::enable_if_t<sizeof...(Scalars) != 0 && sizeof...(Scalars) <= size>>
-                Vector(Scalars... coords) : data{ static_cast<T>(coords)... }
+                /// @brief Constructor
+                /// @tparam ...Scalars types of elements 
+                /// @tparam  condition 
+                /// @param ...coords value of elemnts
+                template <typename... Scalars, typename = std::enable_if_t<(sizeof...(Scalars) > 0) && (sizeof...(Scalars) <= size)>>
+                Vector(Scalars... coords) : data_{ static_cast<T>(coords)... }
                 {
                 }
 
                 Vector()
                 {
-                    std::memset(data, 0, sizeof(T) * size);
+                    std::memset(data_, 0, sizeof(T) * size);
                 }
 
                 template <size_t rsize, typename Type, typename = std::enable_if_t<std::is_arithmetic_v<Type> && rsize <= size>>
                 Vector(const Vector<rsize, Type>& rvec)
                 {
-                    for (size_t i = 0; i < rsize; ++i)
-                       data[i] = rvec[i];
+                    std::memcpy(data_, rvec.ptr(), sizeof(Type) * rsize);
                 }
 
                 template <typename Type, std::enable_if_t<std::is_arithmetic_v<Type>, bool> = true>
                 Vector(Type* arr)
                 {
-                    std::memcpy(data, arr, sizeof(Type) * size);
+                    std::memcpy(data_, arr, sizeof(Type) * size);
                 }
 
                 Vector<size, T> operator +(const Vector<size, T>& vec) const
                 {
-                    Vector<size, T> tmp(T(0.0));
+                    Vector<size, T> tmp(*this);
+
                     for (size_t i = 0; i < size; ++i)
-                        tmp[i] = vec[i] + data[i];
+                        tmp[i] += vec[i];
                     return tmp;
                 }
 
                 Vector<size, T> operator -(const Vector<size, T>& vec) const
                 {
-                    Vector<size, T> tmp(T(0));
+                    Vector<size, T> tmp(*this);
+
                     for (size_t i = 0; i < size; ++i)
-                        tmp[i] = vec[i] - data[i];
+                        tmp[i] -= vec[i];
                     return tmp;
                 }
 
                 //dot product
                 T operator *(const Vector<size, T>& vec) const
                 {
-                    T res = T(0);
-                    for (size_t i = 0; i < size; ++i)
-                        res += data[i] * vec[i];
-                    //std::inner_product(data, data + size, vec.ptr(), vec.ptr() + size, res);
-                    return res;
+                    return std::inner_product(data_, data_ + size, vec.ptr(), T(0));
                 }
 
-                template<typename Type = float,class = typename std::enable_if_t<std::is_arithmetic_v<Type>>>
+                template<typename Type = float, class = typename std::enable_if_t<std::is_arithmetic_v<Type>>>
                 Vector<size, T> operator *(Type num) const
                 {
                     Vector temp(*this);
-                    for (size_t i = 0; i < size; ++i)
-                        temp[i] *= num;
+                    std::for_each(temp.data_, temp.data_ + size, [&num](T &x) { x *= num; });
                     return temp;
                 }
 
@@ -93,45 +96,42 @@ namespace ads
                 Vector<size, T> operator /(Type num) const
                 {
                     Vector temp(*this);
-                    for (size_t i = 0; i < size; ++i)
-                        temp[i] /= num;
+                    std::for_each(temp.data_, temp.data_ + size, [&num](T &x) { x /= num; });
                     return temp;
                 }
 
                 template<typename Type = float, class = typename std::enable_if_t<std::is_arithmetic_v<Type>>>
                 Vector<size, T>& operator /=(Type num)
                 {
-                    for (size_t i = 0; i < size; ++i)
-                        data[i] /= num;
+                    std::for_each(data_, data_ + size, [&num](T &x) { x /= num; });
                     return *this;
                 }
 
                 template<typename Type = float, class = typename std::enable_if_t<std::is_arithmetic_v<Type>>>
                 Vector<size, T>& operator *=(Type num)
                 {
-                    for (size_t i = 0; i < size; ++i)
-                        data[i] *= num;
+                    std::for_each(data_, data_ + size, [&num](T &x) { x *= num; });
                     return *this;
                 }
 
                 Vector<size, T>& operator +=(const Vector<size, T>& vec)
                 {
                     for (size_t i = 0; i < size; ++i)
-                        data[i] += vec[i];
+                        data_[i] += vec[i];
                     return *this;
                 }
 
                 Vector<size, T>& operator *=(const Vector<size, T>& vec)
                 {
                     for (size_t i = 0; i < size; ++i)
-                        data[i] *= vec[i];
+                        data_[i] *= vec[i];
                     return *this;
                 }
 
                 Vector<size, T>& operator =(const Vector<size, T>& vec)
                 {
                     for (size_t i = 0; i < size; ++i)
-                        data[i] = vec[i];
+                        data_[i] = vec[i];
                     return *this;
                 }
 
@@ -140,56 +140,41 @@ namespace ads
 
                 inline T& operator [](std::size_t index)
                 {
-                    return data[index];
+                    return data_[index];
                 }
 
                 inline const T& operator [](std::size_t index) const
                 {
-                    return data[index];
+                    return data_[index];
                 }
 
                 bool operator ==(const Vector<size, T>& vec) const
                 {
                     for (size_t i = 0; i < size; ++i)
-                        if(data[i] != vec[i])
+                        if(data_[i] != vec[i])
                             return false;
                     return true;
                 }
 
-                Vector<size, T> slice(int32_t first, int32_t last) const
+                template<int32_t first, int32_t last, class = typename std::enable_if_t<(first < last) && (first < size) && (last < size + 1)>>
+                Vector<last - first, T> Slice() const
                 {
-                    if (first > size || last > size || std::abs(first - last) > size)
-                        throw(std::range_error("bad vector slice"));
-                    else 
-                    {
-                        if (first < 0)
-                            first += size;
-                        if (last < 0)
-                            last += size;
+                    Vector<last - first, T> res(T(0));
+                    for (int32_t i = first, k = 0; i < last; ++i, ++k)
+                        res[k] = data_[i];
 
-                        int32_t differenc = 1;
-                        if (first > last)
-                            differenc = -1;
-
-                        Vector<size, T> res(T(0));
-                        int32_t k = 0;
-                        for (int32_t i = first; i != last; i += differenc)
-                            res[k++] = data[i];
-                        res[k] = data[last];
-
-                        return res;
-                    }
+                    return res;
                 }
 
-                inline T* ptr() { return &data[0]; }
-                inline const T* ptr() const { return &data[0]; }
+                inline T* ptr() { return &data_[0]; }
+                inline const T* ptr() const { return &data_[0]; }
 
                 template<typename Type, typename = std::enable_if_t<std::is_arithmetic_v<Type>>>
                 operator Vector<size, Type>() const
                 {
                     Vector<size, Type> res(Type(0));
                     for (size_t i = 0; i < size; ++i)
-                        res[i] = static_cast<Type>(data[i]);
+                        res[i] = static_cast<Type>(data_[i]);
                     return res;
                 }
 
@@ -208,7 +193,7 @@ namespace ads
 
             private:
 
-                T data[size]{ T() };
+                T data_[size]{ T() };
             };
 
             /// @brief cross product 
@@ -216,9 +201,9 @@ namespace ads
             Vector<DimRealSpace, T> Cross(const Vector<DimRealSpace, T>& vec1, const Vector<DimRealSpace, T>& vec2)
             {
                
-                return Vector<3, T>(vec2[1] * vec1[2] - vec2[2] * vec1[1],
-                                    vec2[2] * vec1[0] - vec2[0] * vec1[2],
-                                    vec2[0] * vec1[1] - vec2[1] * vec1[0]);
+                return Vector<3, T>(vec2[2] * vec1[1] - vec2[1] * vec1[2],
+                                    vec1[2] * vec2[0] - vec1[0] * vec2[2],
+                                    vec2[1] * vec1[0] - vec2[0] * vec1[1]);
             }
 
             template<size_t size, typename T>

@@ -7,6 +7,7 @@
 using retT = double;
 
 using namespace ads::mathematics;
+using namespace geometry;
 
 retT X(retT x)
 {
@@ -25,8 +26,6 @@ retT Z(retT x)
 
 TEST(GeometryCurve, StandartOps)
 {
-    using namespace geometry;
-
     Curve<3, double> cur(X, Y);
     Vector<3, double> tan = cur.Tangent(0.5);
     double c = cur.Curvature(0.5);
@@ -38,24 +37,25 @@ TEST(GeometryCurve, StandartOps)
 
 TEST(GeometryCurve, Derivative1)
 {
-    using namespace geometry;
-    float accuracy = 0.001f;
+    double accuracy = 0.001;
     size_t n = 1;
-    Curve<3,  float> a(X, Y, Z);
-    Vector<3, float> der = a.Derivative(1.0, n, accuracy);
-    Vector<3, float> answer(.1f, 2.f, 5.f);
+    Curve<3,  double> a(X, Y, Z);
+    Vector<3, double> der = a.Derivative(1.0, n, accuracy);
+    Vector<3, double> answer(.1f, 2.f, 5.f);
+
+    std::cout << der[0] << " " << der[1] << " " << der[2] << std::endl;
+    std::cout << answer[0] << " " << answer[1] << " " << answer[2] << std::endl; 
 
     ASSERT_TRUE(isEqual(der, answer, accuracy));
 }
 
 TEST(GeometryCurve, Derivative2)
 {
-    using namespace geometry;
-    float accuracy = 0.001f;
+    double accuracy = 0.001;
     size_t n = 2;
-    Curve<3,  float> a(X, Y, Z);
-    Vector<3, float> der = a.Derivative(1.0, n, accuracy);
-    Vector<3, float> answer(0.f, 2.f, 20.f);
+    Curve<3,  double> a(X, Y, Z);
+    Vector<3, double> der = a.Derivative(1.0, n, accuracy);
+    Vector<3, double> answer(0.f, 2.f, 20.f);
 
     std::cout << der[0] << " " << der[1] << " " << der[2] << std::endl;
     std::cout << answer[0] << " " << answer[1] << " " << answer[2] << std::endl; 
@@ -66,12 +66,14 @@ TEST(GeometryCurve, Derivative2)
 
 TEST(GeometryCurve, Derivative3)
 {
-    using namespace geometry;
-    float accuracy = 0.001f;
+    double accuracy = 0.001;
     size_t n = 3;
-    Curve<3,  float> a(X, Y, Z);
-    Vector<3, float> der = a.Derivative(1.0, n, accuracy);
-    Vector<3, float> answer(0.f, 0.f, 60.f);
+    Curve<3,  double> a(X, Y, Z);
+    Vector<3, double> der = a.Derivative(1.0, n, accuracy);
+    Vector<3, double> answer(0.f, 0.f, 60.f);
+
+    std::cout << der[0] << " " << der[1] << " " << der[2] << std::endl;
+    std::cout << answer[0] << " " << answer[1] << " " << answer[2] << std::endl; 
 
     ASSERT_TRUE(isEqual(der, answer, accuracy));
 }

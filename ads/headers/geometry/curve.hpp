@@ -83,12 +83,14 @@ namespace ads
                 /*t - point, n - number of der,h - step (error)*/
                 Vector<size, T> Derivative(T t, size_t n, T h)
                 {
+                    h /= 100.0;
+
                     Vector<size, T> res(Eval(t));
                     T sign = -1;
 
-                    for (size_t i = 0; i < n; ++i, sign *= -1)
+                    for (size_t i = 1; i < n + 1; ++i, sign *= -1)
                     {
-                        res += sign * static_cast<T>(C(n, i + 1)) * Eval(t + static_cast<T>(i + 1) * h);
+                        res += sign * static_cast<T>(C(n, i)) * Eval(t + static_cast<T>(i) * h);
                     }
                     sign *= -1;
                     return res * sign / std::pow(h, n);
