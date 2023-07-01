@@ -1,4 +1,3 @@
-#pragma once
 #include <algebra.h>
 
 #include <gtest/gtest.h>

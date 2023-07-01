@@ -1,4 +1,3 @@
-#pragma once
 #include <calculus.h>
 
 #include <gtest/gtest.h>
