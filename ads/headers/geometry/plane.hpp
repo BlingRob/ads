@@ -1,5 +1,5 @@
 /// @file plane.hpp
-/// @brief define curve class
+/// @brief define plane class
 
 #pragma once
 #ifndef __PLANE_HPP__
@@ -26,7 +26,9 @@ namespace ads
                     {
                         return equation_.Slice<0,3>();
                     }
-
+                    
+                    /// @brief projection vector on plane
+                    /// @return projection vector vec on plane
                     Vector<3, T> Proj(const Vector<3, T>& vec)
                     {
                         Vector<3, T> norm = Norm().Norm();
@@ -42,4 +44,4 @@ namespace ads
     } // namespace mathematics
 } // namespace ads
 
-#endif // __CURVE_HPP__
+#endif // __PLANE_HPP__

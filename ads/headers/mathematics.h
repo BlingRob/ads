@@ -4,7 +4,9 @@
 #pragma once
 #ifndef __MATHEMATICS_H__
 #define __MATHEMATICS_H__
+
 #include <type_traits>
+#include <cstdint>
 
 namespace ads
 {

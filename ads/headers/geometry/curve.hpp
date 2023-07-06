@@ -151,15 +151,6 @@ namespace ads
                 //std::initializer_list<fun_t> data{ [](T x) {return T(0); }, [](T x) {return T(0); }, [](T x) {return T(0); } };
             };
 
-            /// @brief projection vector on plane
-            /// @return projection vector lvec on plane
-            /*template<size_t size, typename T>
-            T proj(const Vector<size, T>& lvec, const Curve<size, T>& plane)
-            {
-                auto norm = plane.  rvec.Norm();
-                return (lvec * normRVec) * normRVec;
-            }*/
-
         } // namespace geometry
     } // namespace mathematics
 } // namespace ads

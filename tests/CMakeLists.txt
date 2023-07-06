@@ -19,6 +19,7 @@ add_executable(
   ads/calculus.cpp
   ads/geometry/curve.cpp
   ads/geometry/vector.cpp
+  ads/geometry/matrix.cpp
 #  ${CPP_FILES}
 #  ${H_FILES}
 )

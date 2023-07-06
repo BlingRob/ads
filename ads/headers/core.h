@@ -57,7 +57,7 @@ namespace ads
         return (a[k >> 5] >> (k & 31)) & 1;
     }
 
-    int NBit(unsigned int x)
+    inline int NBit(unsigned int x)
     {
         return x == 0 ? 0 : (x & 1) + NBit(x >> 1);
     }
