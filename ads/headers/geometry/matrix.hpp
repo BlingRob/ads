@@ -64,7 +64,7 @@ namespace ads
                     }
                 }
 
-                Matrix<size, T> operator*(const Matrix<size, T>& r)
+                Matrix<size, T> operator * (const Matrix<size, T>& r)
                 {
                     Matrix<size, T> result(static_cast<T>(0.0));
                     for (size_t i = 0; i < size; ++i)
@@ -74,7 +74,7 @@ namespace ads
                     return result;
                 }
 
-                Matrix<size, T> operator-(const Matrix<size, T>& r) 
+                Matrix<size, T> operator - (const Matrix<size, T>& r) 
                 {
                     Matrix<size, T> result(static_cast<T>(0.0));
                     for (size_t i = 0; i < size; ++i)
@@ -83,13 +83,27 @@ namespace ads
                     return result;
                 }
 
-                Matrix<size, T> operator+(const Matrix<size, T>& r)
+                Matrix<size, T> operator + (const Matrix<size, T>& r)
                 {
                     Matrix<size, T> result(static_cast<T>(0.0));
                     for (size_t i = 0; i < size; ++i)
                         for (size_t j = 0; j < size; ++j)
                             result[i][j] = data_[i][j] + r[i][j];
                     return result;
+                }
+
+                bool operator == (const Matrix<size, T>& r) const
+                {
+                    for (size_t i = 0; i < size; ++i)
+                        for (size_t j = 0; j < size; ++j)
+                            if(r[i][j] != data_[i][j])
+                                return false;
+                    return true;
+                }
+
+                bool operator != (const Matrix<size, T>& r) const
+                {
+                    return !(*this == r); 
                 }
 
                 const T* operator[](size_t row) const 
@@ -103,7 +117,7 @@ namespace ads
                 }
 
                 template<typename Type = float, typename = std::enable_if_t<std::is_arithmetic_v<Type>>>
-                Vector<size, Type> operator*(const Vector<size, Type>& vec)
+                Vector<size, Type> operator * (const Vector<size, Type>& vec)
                 {
                     Vector<size, Type> res(T(0.0));
                     for (size_t i = 0; i < size; ++i)
