@@ -1,4 +1,0 @@
-mkdir <new_folder>
-cd <new_folder>
-cmake .. <needing options>
-cmake --build .

@@ -1,6 +1,6 @@
 project(ads)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 #Searching sourse files
 file(GLOB_RECURSE SOURCE_FILES
@@ -17,7 +17,7 @@ include_directories(${ADS_HEADER_DIR})
 
 #add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
-#TODO while it is not library	
+#TODO while it is not library
 if(NOT WIN32)
 	#list(APPEND CMAKE_CXX_FLAGS "-std=c++17 -fpermissive ${CMAKE_CXX_FLAGS}")
 endif()

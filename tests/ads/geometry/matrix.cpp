@@ -1,6 +1,6 @@
 /// @file matrix.cpp
 /// @brief tests for geometry module - matrix
-#include <geometry/matrix.hpp>
+#include <mathematics/geometry/matrix.hpp>
 
 #include <gtest/gtest.h>
 

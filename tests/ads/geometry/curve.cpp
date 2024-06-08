@@ -1,6 +1,6 @@
 /// @file curve.cpp
 /// @brief tests for geometry module - curve
-#include <geometry/curve.hpp>
+#include <mathematics/geometry/curve.hpp>
 
 #include <gtest/gtest.h>
 

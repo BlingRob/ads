@@ -1,6 +1,6 @@
 project(tests)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/GTestsPrepare.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/TestSuits.cmake)
 
@@ -20,9 +20,12 @@ add_executable(
   ads/geometry/curve.cpp
   ads/geometry/vector.cpp
   ads/geometry/matrix.cpp
+  ads/concurrent_stack.cpp
+  ads/multi_queue.cpp
 #  ${CPP_FILES}
 #  ${H_FILES}
 )
+
 target_link_libraries(
   ${PROJECT_NAME}
   GTest::gtest_main

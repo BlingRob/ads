@@ -1,6 +1,6 @@
 /// @file vector.cpp
 /// @brief tests for geometry module - vector
-#include <geometry/vector.hpp>
+#include <mathematics/geometry/vector.hpp>
 
 #include <gtest/gtest.h>
 

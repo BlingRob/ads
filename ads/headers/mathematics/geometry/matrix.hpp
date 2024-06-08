@@ -17,6 +17,7 @@
 #include <memory>
 #include <iterator>
 #include <utility>
+#include <stdexcept>
 
 namespace ads
 {
